@@ -4,8 +4,9 @@ from balanceUpdates import min_time, max_time
 url = "https://streaming.bitquery.io/graphql"
 import pandas as pd
 
+
 payload = json.dumps({
-   "query": "query MyQuery {\n  EVM(dataset: combined, network: eth) {\n    latest: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: \"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"}}}}}\n      limit: {count: 1}\n      orderBy: {descending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Buy {\n          Price\n        }\n      }\n    }\n    min_trade: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: \"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"}}}}, Block: {Time: {after:\"" +min_time+ "\"}}}\n       limit: {count: 1}\n      orderBy: {ascending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Buy {\n          Price\n        }\n      }\n    }\n  }\n}\n",
+   "query": "{\n  EVM(dataset: combined, network: eth) {\n    min_trade: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: \"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"}}}}, Block: {Time: {after:\"" +min_time+ "\"}}}\n      limit: {count: 1}\n      orderBy: {ascending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Buy {\n          Price\n        }\n      }\n    }\n    latest: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: \"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"}}}}, Block: {Time: {after:\"" +max_time+ "\"}}}\n      limit: {count: 1}\n      orderBy: {ascending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Buy {\n          Price\n        }\n      }\n    }\n  }\n}\n",
    "variables": "{}"
 })
 headers = {
